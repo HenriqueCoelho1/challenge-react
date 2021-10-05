@@ -1,39 +1,49 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { Row, Col } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import { Row, Col, Image, ListGroup, Cart, Button } from 'react-bootstrap'
-import products from '../data/products'
+import { Card, Button } from 'react-bootstrap'
 
-const Product = ({ match }) => {
-    const productMatchId = match.params.id
-    const product = products.find(p => p.id == productMatchId)
+
+const Home = ({ products, handleProduct }) => {
+
+    const [cartItems, setCartItems] = useState([])
     return (
         <>
-            <Link className="btn btn-dark rounded my-3" to="/">Go back</Link>
+            <h1>My shop</h1>
+            <Row>
+                {products.map(product =>
+                    <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
+                        <Card className="my-3 p-3 rounded">
+                            {/* <h1>{product.name}</h1> */}
+                            <Link to={`/product/${product._id}`}>
+                                <Card.Img src={product.image} variant="top" />
+                            </Link>
 
-            <Row className="pt-3">
-                <Col md={2}>
-                    <Image src={product.image} alt={product.name} fluid />
-                </Col>
-                <Col md={10}>
-                    <ListGroup variant="flush">
-                        <ListGroup.Item>
-                            <h3>{product.name}</h3>
-                        </ListGroup.Item>
-                        <ListGroup.Item>
-                            <h5>Score</h5><p className="text-info">{product.score}</p>
-                        </ListGroup.Item>
-                        <ListGroup.Item>
-                            <h5>Price</h5>${product.price}
-                        </ListGroup.Item>
+                            <Card.Body>
+                                <Link to={`/product/${product._id}`}>
+                                    <Card.Title as="div">
+                                        <strong>{product.name.length > 25 ? product.name.slice(0, 23) + "..." : product.name}</strong>
+                                    </Card.Title>
+                                </Link>
 
-                        <ListGroup.Item>
-                            <Button className="btn-block" type="button">Add To Cart</Button>
-                        </ListGroup.Item>
-                    </ListGroup>
-                </Col>
+
+                                <Card.Text as="div">
+                                    <div className="py-3">
+                                        Product score:<p className="text-info">{product.score}</p>
+                                    </div>
+                                </Card.Text>
+
+
+                                <Card.Text as="h3">${product.price}</Card.Text>
+
+                                <Button onClick={() => handleProduct(product)} className="btn-block">Add To Cart</Button>
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                )}
             </Row>
         </>
     )
 }
 
-export default Product
+export default Home
