@@ -24,12 +24,27 @@ const App = () => {
 
   }
 
+  function handleRemove(product) {
+    const productExist = cartItems.find((p) => p._id === product._id)
+
+    if (productExist.quantity === 1) {
+      setCartItems(cartItems.filter(p => p._id !== product._id))
+    } else {
+      setCartItems(cartItems.map(p => p._id === product._id ? { ...productExist, quantity: product.quantity - 1 } : p))
+    }
+
+
+  }
+
   return (
     <Router>
       <Header />
       <main className="py-3">
         <Container>
-          <Routes products={products} cartItems={cartItems} handleProduct={handleProduct} />
+          <Routes products={products}
+            cartItems={cartItems}
+            handleProduct={handleProduct}
+            handleRemove={handleRemove} />
         </Container>
       </main>
       <Footer />

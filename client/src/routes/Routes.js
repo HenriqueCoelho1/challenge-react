@@ -4,7 +4,7 @@ import Product from '../pages/Product'
 import ProductId from '../pages/ProductId'
 import Cart from '../pages/Cart'
 
-const Routes = ({ products, cartItems, handleProduct }) => {
+const Routes = ({ products, cartItems, handleProduct, handleRemove }) => {
     return (
         <Switch>
             <Route exact path="/">
@@ -12,7 +12,7 @@ const Routes = ({ products, cartItems, handleProduct }) => {
             </Route>
             <Route path="/product/:id" exact component={Product} />
             <Route path="/cart" exact>
-                <Cart cartItems={cartItems} handleProduct={handleProduct} />
+                <Cart cartItems={cartItems} handleProduct={handleProduct} handleRemove={handleRemove} />
             </Route>
 
         </Switch>
