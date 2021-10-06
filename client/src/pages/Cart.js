@@ -1,16 +1,11 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import { Col, Row, Card, Button, ListGroup } from 'react-bootstrap'
 
 const Cart = ({ cartItems, handleProduct, handleRemove }) => {
-    console.log("CART ITEMS", cartItems)
+    // console.log("CART ITEMS", cartItems)
 
-    const totalPrice = cartItems.reduce((price, p) => price + p.quantity * p.price + 10, 0)
-    const totalPriceNoTax = cartItems.reduce((price, p) => price + p.quantity * p.price, 0)
-
-
-
-
+    const totalPrice = cartItems.reduce((price, p) => price + p.quantity * p.price, 0)
+    const totalPriceWithTax = totalPrice < 250 && cartItems.reduce((price, p) => price + p.quantity * p.price + 10, 0)
 
     return (
         <>
@@ -20,13 +15,22 @@ const Cart = ({ cartItems, handleProduct, handleRemove }) => {
                     <Card>
                         <ListGroup variant="flush">
                             <ListGroup.Item>
-                                <Row>
+                                {<Row>
                                     <Col>
-                                        {totalPrice > 250 ? `Subtotal: with no shipping tax ${totalPrice}` :
-                                            `Subtotal`}
+                                        Shipping:
                                     </Col>
                                     <Col>
-                                        {totalPrice}
+                                        ${totalPrice < 250 ? `${totalPriceWithTax - totalPrice}`
+                                            : `0`}
+                                    </Col>
+                                </Row>}
+                                <br />
+                                <Row>
+                                    <Col>
+                                        Subtotal:
+                                    </Col>
+                                    <Col>
+                                        ${totalPrice}
                                     </Col>
                                 </Row>
                                 <br />
@@ -36,7 +40,7 @@ const Cart = ({ cartItems, handleProduct, handleRemove }) => {
                                     </Col>
                                     <Col>
 
-                                        {totalPrice > 250 ? totalPriceNoTax : totalPrice}
+                                        ${totalPrice > 250 ? totalPrice : totalPriceWithTax}
                                     </Col>
                                 </Row>
 
@@ -53,18 +57,13 @@ const Cart = ({ cartItems, handleProduct, handleRemove }) => {
                         <Col key={product._id} sm={12} md={6} lg={3} xl={4}>
                             <Card className="my-3 p-3 rounded">
 
-                                {/* <h1>{product.name}</h1> */}
-                                <Link to={`/product/${product._id}`}>
-                                    <Card.Img src={product.image} variant="top" />
-                                </Link>
+                                <Card.Img src={product.image} variant="top" />
+
 
                                 <Card.Body>
-                                    <Link to={`/product/${product._id}`}>
-                                        <Card.Title as="div">
-                                            <strong>{product.name.length > 25 ? product.name.slice(0, 23) + "..." : product.name}</strong>
-                                        </Card.Title>
-                                    </Link>
-
+                                    <Card.Title as="div">
+                                        <strong>{product.name.length > 25 ? product.name.slice(0, 23) + "..." : product.name}</strong>
+                                    </Card.Title>
 
                                     <Card.Text as="div">
                                         <div className="py-3">

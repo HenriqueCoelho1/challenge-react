@@ -1,7 +1,6 @@
 import React from 'react'
 import { Route, Switch } from 'react-router'
 import Product from '../pages/Product'
-import ProductId from '../pages/ProductId'
 import Cart from '../pages/Cart'
 
 const Routes = ({ products, cartItems, handleProduct, handleRemove }) => {

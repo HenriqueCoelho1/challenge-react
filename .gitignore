@@ -6,6 +6,7 @@ assets.zip
 node_modules
 /.pnp
 .pnp.js
+/ProductId.js
 
 # testing
 /coverage
